@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Settings</h1>
+
+{% if user.team_leader %}
+    <button type="button" onClick="deleteTeam({{ user.team_id }})">
+        <span aria-hidden="true">Delete team</span>
+    </button>
+
+{% else %}
+    <button type="button" onClick="leaveTeam()">
+        <span aria-hidden="true">leave team</span>
+    </button>
+
+{% endif %}
+
+
+{% endblock %}

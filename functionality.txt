@@ -1,0 +1,27 @@
+Functionality for leaderboard app:
+
+- everyone can register
+- everyone can login
+- user with no team sees list of teams and can create team
+- user with no team can join team
+- user with team sees team page with list of team members and tl
+- creator of team becomes team leader
+- team leader joins team immediately when its created
+- team leader can delete team
+- if team name exists already, cant create team 
+- cant leave team if you are a team leader
+- can leave team if you are a team member
+- team leader can add work for team members and multiple members can be assigned the same task at once
+- can't add work if it's blank
+
+
+to be added:
+
+- work can be viewed by tl
+- work can be edited by tl, deleted
+- user can update status of work
+
+- add 'are you sure' before leaving or deleting a team 
+- protect routes
+- team leader can assign buddy to team members
+- team leader can edit work status of team members 

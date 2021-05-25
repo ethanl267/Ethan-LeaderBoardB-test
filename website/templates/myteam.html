@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.team_id %}
+    <h1>Team name: {{ teams[user.team_id - 1].name }}</h1>
+    <h3>Team leader:</h3>
+    {% for member in teams[user.team_id - 1].users %}
+        {% if member.team_leader %}
+            <li>
+                {{ users[member.id - 1].first_name }}
+            </li>
+        {% endif %}
+    {% endfor %}
+    <h3>Team members:</h3>
+    {% for member in teams[user.team_id - 1].users %}
+        {% if not member.team_leader %}
+            <li>
+                {{ users[member.id - 1].first_name }}
+            </li>
+        {% endif %}
+    {% endfor %}
+    
+{% else %}
+    <h4>You haven't joined any team yet.</h4>
+    <h3>Join an existing team:</h3>
+        {% for team in teams %}
+            <li class="list-group-item">
+                {{ team.name }}
+                <button type='button' onClick='joinTeam({{ team.id }})'>
+                    join team
+                </button>
+            </li>
+        {% endfor %}
+    <form method="POST">
+        <div align="center">
+            <h3>Create a new team:</h3>
+            <input type='text'class="form-control" placeholder='Team Name' name='teamName' id='teamName'/>
+            <button type="submit" class="btn btn-primary">Create Team</button>
+        </div>
+    </form>
+{% endif %}
+
+{% endblock %}

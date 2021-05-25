@@ -1,0 +1,31 @@
+AUTH:
+
+SIGN UP 
+x everyone can access route (get) (unit)
+x if len email less than 4, flash message appears (unit)
+x if name less than 2 characters, test flash (unit)
+x passwords dont match (unit)
+- passwords at least 7 digits (unit)
+- if user exists (user is in db), flash message appears (integration)
+- successfully add user (integration)
+
+
+LOG IN
+- test response when loading page - should be valid irrespective of user (unit)
+- test that page returns with correct data (unit)
+- test for log in with valid user (correct name, correct password) (integration)
+- test for log in with non-existing user (integration)
+- test for log in with valid user, wrong password (integration)
+
+
+LOG OUT
+- test that route is accessed if user is logged in ( integration )
+- test that route cant be accessed if user is not logged in (unit) 
+- test response code when user navigates to page ( logged in ) (integration)
+- test response code when user navigates to page ( not logged in ) (unit)
+- test that current_user is none after logging out (integration)
+- test that user is redirected to login page after log out ( integration )
+
+
+
+

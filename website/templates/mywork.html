@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>My work</h1>
+
+{% if user.work %}
+    <h3>Here is your work:</h3>
+    
+    {% for task in user.work %}
+    
+    <div class="card">
+        <div class="card-header">{{ task.title }}</div>
+        <div class="card-body">{{ task.description }}</div>
+    </div>
+    {% endfor %}
+
+{% else %}
+    <h3>You have no work available.</h3>
+    
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.team_leader %}
+    <h1>Manage Team's Work</h1>
+    <h4>Add A New Task</h4>
+        <form method="POST">
+            <input name='title' id='title' class='form-control' type='text' placeholder='Task title'/>
+            <textarea name="description" id="description" class="form-control" placeholder='Task description'></textarea>
+            <input name='points' id='points' class='form-control' type='number' placeholder='Points'/>
+            <p>Assign task to:</p>
+            <div name='assigned' id='assigned' class='select'>
+                {% for member in members %}
+                    {% if not member.team_leader %}
+                        <input type="checkbox" value={{ member.id }} name='user'/>
+                        <label>{{ member.first_name }}</label>
+                        <br/>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Add Task</button>
+           
+        </form>
+
+    <h4>View a team member's work</h4>
+    <div id='TeamsWork'>
+    {% for member in members %}
+        {% if not member.team_leader %}
+                <div class='membersWork'>
+                    {{ member.first_name }}
+                    {% for task in member.work %}
+                        <div class="card">
+                            <div class="card-header">{{ task.title }}</div>
+                            <div class="card-body">{{ task.description }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

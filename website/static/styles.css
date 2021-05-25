@@ -1,0 +1,8 @@
+/* ----------------------- MANAGE WORK --------------------------- */
+#TeamsWork{
+    display: flex;
+}
+
+.membersWork{
+    width: 25vw;
+}
