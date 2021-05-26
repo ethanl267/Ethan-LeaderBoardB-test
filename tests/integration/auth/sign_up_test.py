@@ -40,11 +40,43 @@ class TestSignUp(BaseTest):
             self.assertIn(b'Email already in use',response.data)
 
 class Testlog_in(BaseTest):
-    def test_log_in_post(self):
+    def test_log_in_success(self):
         with self.app:
-            response = self.app.post('/log-in',
-                                    data=dict(email='email@gmail.com', password1='pass1234'),
+            response = self.app.post('/sign-up',
+                                    data=dict(email='moses@gmail.com', firstName="moses", password1='qwerty123', password2='qwerty123'),
                                     follow_redirects=True)
-            user = db.session.query(User).filter_by(email='email@gmail.com').first()
-            user_data = self.app.post('/log-in', email='email@gmail.com', password='pass1234')
-            self.assertIn(b'Logged in successfully', user_data.data)
+            user = db.session.query(User).filter_by(email='moses@gmail.com').first()
+            self.assertTrue(user)
+
+            response = self.app.post('/log-in',
+                                    data=dict(email='moses@gmail.com', password='qwerty123'),
+                                    follow_redirects=True)
+            user = db.session.query(User).filter_by(email='moses@gmail.com').first()
+            self.assertTrue(user)
+            self.assertIn(b'Logged in successfully', response.data)
+
+    def test_log_in_invalid_user(self):
+        with self.app:
+             response = self.app.post('/log-in',
+                                    data=dict(email='qwers@gmail.com', password='qwerty123'),
+                                    follow_redirects=True)
+             self.assertIn(b'Email does not exist', response.data)
+
+    def test_log_in_wrong_password(self):
+        with self.app:
+            response = self.app.post('/sign-up',
+                                    data=dict(email='qwerss@gmail.com', firstName="moses", password1='qwerty123', password2='qwerty123'),
+                                    follow_redirects=True)
+            user = db.session.query(User).filter_by(email='qwerss@gmail.com').first()
+            self.assertTrue(user)
+
+
+            response = self.app.post('/log-in',
+                                    data=dict(email='qwerss@gmail.com', password='1234567'),
+                                    follow_redirects=True)
+                       
+            self.assertIn(b'Password is wrong', response.data)
+
+
+
+
