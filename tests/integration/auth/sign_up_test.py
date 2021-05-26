@@ -6,7 +6,7 @@ from flask_login import current_user
 
 class TestSignUp(BaseTest):
 
-    # test signing up user successfully 
+    # test sign up user successfully 
     def test_sign_up_post_success(self):
         with self.app:
             # create a post req with valid data
