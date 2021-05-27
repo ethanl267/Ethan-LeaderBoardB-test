@@ -1,8 +1,11 @@
-from website.auth import log_in
-from flask.wrappers import Response
+
+# from werkzeug.wrappers import request
+# from website.auth import log_in
+# from flask.wrappers import Response
 from tests.base_test import BaseTest, db
 from website.models import User
 from flask_login import current_user
+from flask import request
 
 class TestSignUp(BaseTest):
 
@@ -78,5 +81,26 @@ class Testlog_in(BaseTest):
             self.assertIn(b'Password is wrong', response.data)
 
 
+
+class TestLogout(BaseTest):
+    def test_log_out(self):
+        with self.app:
+            Response =  response = self.app.post('/sign-up',
+                                    data=dict(email='ethan@gmail.com', firstName="ethan", password1='qwers123', password2='qwers123'),
+                                    follow_redirects=True)
+            user = db.session.query(User).filter_by(email='ethan@gmail.com').first()
+            self.assertTrue(user)
+
+            Response =  response = self.app.post('/log-in',
+                                    data=dict(email='ethan@gmail.com', password='qwers123'),
+                                    follow_redirects=True)
+            user = db.session.query(User).filter_by(email='ethan@gmail.com').first()
+            self.assertTrue(user)
+            self.assertIn(b'Logged in successfully', response.data)
+
+            response = response = self.app.get('/log-out', follow_redirects=True)
+            self.assertEqual(response.status_code , 200)
+            self.assertIn("/log-in", request.url)
+            self.assertFalse(current_user.is_active)
 
 
