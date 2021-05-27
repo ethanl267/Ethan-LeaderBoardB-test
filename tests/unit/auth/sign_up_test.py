@@ -78,3 +78,38 @@ class TestSignUp(BaseTest):
             self.assertFalse(user)
             # assert user is not logged in
             self.assertIsNone(current_user.get_id()) 
+
+class TestLogIn(BaseTest):
+    def test_login_page_loads(self):
+        with self.app:
+            response = self.app.get('/log-in', follow_redirects=True)
+            self.assertIn('/log-in', request.url)
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(b'Log in', response.data)
+
+    def test_login_with_correct_data(self):
+        with self.app:
+            response = self.app.post('/sign-up', data=dict(email='qwer@gmail.com', firstName='lesch', password1= '1234567', password2= '1234567'), follow_redirects=True)
+            
+            user = db.session.query(User).filter_by(email='qwer@gmail.com').first()
+            self.assertTrue(user)
+            
+            response = self.app.post('/log-in', data=dict(email='qwer@gmail.com', password='1234567'), follow_redirects=True)
+            user = db.session.query(User).filter_by(email='qwer@gmail.com').first()
+            self.assertTrue(user)
+            
+            self.assertIn(b'Logged in successfully', response.data)
+            self.assertEqual(response.status_code, 200)
+
+class TestLogout(BaseTest):
+    def test_logout_without_being_logged_in(self):
+        with self.app:
+            response = self.app.get('/log-out', follow_redirects=False)
+            self.assertEqual(response.status_code, 302)
+            
+    def test_logout_route_while_logged_in(self):
+        with self.app:
+            # sign up
+            # log in
+            response = self.app.get('/logout', follow_redirects=True)
+            self.assertEqual(response.status_code, 200)
